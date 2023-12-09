@@ -8,28 +8,51 @@ package analizador;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int LLAVE_IZQ = 2;
-  public static final int DECIMAL = 8;
-  public static final int COMA = 4;
-  public static final int LLAVE_DER = 3;
-  public static final int DOSPUNTOS = 5;
-  public static final int STRING = 9;
+  public static final int PUNTO = 11;
+  public static final int DOSPUNTOS = 9;
+  public static final int INT = 10;
+  public static final int DECIMAL = 17;
+  public static final int BARRA_V = 20;
+  public static final int FLECHA = 6;
+  public static final int RSALTOLINEA = 13;
+  public static final int RCOMILLAS = 15;
+  public static final int ID = 16;
+  public static final int POR = 5;
+  public static final int CARACTER = 19;
+  public static final int STRING = 18;
   public static final int EOF = 0;
-  public static final int COR_IZQ = 7;
+  public static final int RCOMILLAD = 14;
+  public static final int CONJ = 12;
+  public static final int PAR_IZQ = 2;
   public static final int error = 1;
-  public static final int COR_DER = 6;
+  public static final int PAR_DER = 3;
+  public static final int LLAVE_IZQ = 7;
+  public static final int PUNTOCOMA = 21;
+  public static final int LLAVE_DER = 8;
+  public static final int MAS = 4;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
+  "PAR_IZQ",
+  "PAR_DER",
+  "MAS",
+  "POR",
+  "FLECHA",
   "LLAVE_IZQ",
   "LLAVE_DER",
-  "COMA",
   "DOSPUNTOS",
-  "COR_DER",
-  "COR_IZQ",
+  "INT",
+  "PUNTO",
+  "CONJ",
+  "RSALTOLINEA",
+  "RCOMILLAD",
+  "RCOMILLAS",
+  "ID",
   "DECIMAL",
-  "STRING"
+  "STRING",
+  "CARACTER",
+  "BARRA_V",
+  "PUNTOCOMA"
   };
-    
 }
 

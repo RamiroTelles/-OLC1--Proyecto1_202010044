@@ -73,6 +73,10 @@ COM_MULTI ="<!"([^ !>]|{SALTOLINEA})* "!>"
 %%
 /* 3. Reglas Semanticas */
 
+"|" { System.out.println("Reconocio "+yytext()+" |"); 
+        listaTokens.add(new elToken(yytext(),"BARRA_V",yyline,yycolumn));
+        
+        return new Symbol(sym.BARRA_V,yyline,yychar, yytext());} 
 
 ";" { System.out.println("Reconocio "+yytext()+" punto y coma"); 
         listaTokens.add(new elToken(yytext(),"PUNTOCOMA",yyline,yycolumn));
@@ -140,10 +144,25 @@ COM_MULTI ="<!"([^ !>]|{SALTOLINEA})* "!>"
    
     return new Symbol(sym.PUNTO,yyline,yychar, yytext());}
 
-"CONJ" { System.out.println("Reconocio "+yytext()+" ."); 
-    listaTokens.add(new elToken(yytext(),"PUNTO",yyline,yycolumn));
+"CONJ" { System.out.println("Reconocio "+yytext()+" CONJ"); 
+    listaTokens.add(new elToken(yytext(),"CONJ",yyline,yycolumn));
    
-    return new Symbol(sym.PUNTO,yyline,yychar, yytext());}
+    return new Symbol(sym.CONJ,yyline,yychar, yytext());}
+
+"\\n" { System.out.println("Reconocio "+yytext()+" \\n"); 
+    listaTokens.add(new elToken(yytext(),"RSALTOLINEA",yyline,yycolumn));
+   
+    return new Symbol(sym.RSALTOLINEA,yyline,yychar, yytext());}
+
+"\\\"" { System.out.println("Reconocio "+yytext()+" \""); 
+    listaTokens.add(new elToken(yytext(),"RCOMILLAD",yyline,yycolumn));
+   
+    return new Symbol(sym.RCOMILLAD,yyline,yychar, yytext());}
+
+"\\\'" { System.out.println("Reconocio "+yytext()+" \'"); 
+    listaTokens.add(new elToken(yytext(),"RCOMILLAS",yyline,yycolumn));
+   
+    return new Symbol(sym.RCOMILLAS,yyline,yychar, yytext());}
 
 {SALTOLINEA} {yychar=1;}
 
@@ -167,7 +186,10 @@ COM_MULTI ="<!"([^ !>]|{SALTOLINEA})* "!>"
   
     return new Symbol(sym.STRING,yyline,yychar, yytext());}
 
-
+{CARACTER} {System.out.println("Reconocio CARACTER: "+yytext()); 
+    listaTokens.add(new elToken(yytext(),"CARACTER",yyline,yycolumn));
+  
+    return new Symbol(sym.CARACTER,yyline,yychar, yytext());}
 
 
 . {

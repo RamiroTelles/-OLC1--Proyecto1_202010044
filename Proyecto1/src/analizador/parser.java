@@ -33,9 +33,9 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\007\000\002\002\004\000\002\002\003\000\002\003" +
-    "\005\000\002\004\007\000\002\004\005\000\002\004\007" +
-    "\000\002\004\005" });
+    "\000\011\000\002\002\004\000\002\002\005\000\002\003" +
+    "\004\000\002\003\003\000\002\004\003\000\002\004\003" +
+    "\000\002\005\010\000\002\006\006\000\002\007\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -43,14 +43,19 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\017\000\004\004\005\001\002\000\004\002\021\001" +
-    "\002\000\004\013\007\001\002\000\004\002\000\001\002" +
-    "\000\004\007\012\001\002\000\004\005\011\001\002\000" +
-    "\004\002\uffff\001\002\000\006\012\014\013\013\001\002" +
-    "\000\006\005\ufffd\006\017\001\002\000\006\005\ufffb\006" +
-    "\015\001\002\000\004\013\007\001\002\000\004\005\ufffc" +
-    "\001\002\000\004\013\007\001\002\000\004\005\ufffe\001" +
-    "\002\000\004\002\001\001\002" });
+    "\000\025\000\004\011\005\001\002\000\004\002\027\001" +
+    "\002\000\006\016\011\022\006\001\002\000\004\010\024" +
+    "\001\002\000\010\012\ufffd\016\ufffd\022\ufffd\001\002\000" +
+    "\010\012\022\016\011\022\006\001\002\000\004\013\014" +
+    "\001\002\000\010\012\ufffc\016\ufffc\022\ufffc\001\002\000" +
+    "\010\012\ufffe\016\ufffe\022\ufffe\001\002\000\004\022\015" +
+    "\001\002\000\004\010\016\001\002\000\004\023\017\001" +
+    "\002\000\004\027\ufff9\001\002\000\004\027\021\001\002" +
+    "\000\010\012\ufffb\016\ufffb\022\ufffb\001\002\000\004\002" +
+    "\000\001\002\000\010\012\uffff\016\uffff\022\uffff\001\002" +
+    "\000\004\023\017\001\002\000\004\027\026\001\002\000" +
+    "\010\012\ufffa\016\ufffa\022\ufffa\001\002\000\004\002\001" +
+    "\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -58,12 +63,15 @@ public class parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\017\000\006\002\003\003\005\001\001\000\002\001" +
-    "\001\000\004\004\007\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\002\001\001\000\002\001\001\000\004\004\015" +
-    "\001\001\000\002\001\001\000\004\004\017\001\001\000" +
-    "\002\001\001\000\002\001\001" });
+    "\000\025\000\004\002\003\001\001\000\002\001\001\000" +
+    "\012\003\007\004\012\005\006\006\011\001\001\000\002" +
+    "\001\001\000\002\001\001\000\010\004\022\005\006\006" +
+    "\011\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\007" +
+    "\017\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001\000\002\001\001\000\002\001\001\000\004\007" +
+    "\024\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -103,11 +111,6 @@ public class parser extends java_cup.runtime.lr_parser {
 
 
 
-        public ArrayList<tablaJson> tabJson = new ArrayList();
-        
-        public ArrayList<tablaJson> getTabla(){
-                return tabJson;
-        }
 
 
 
@@ -137,7 +140,7 @@ class CUP$parser$actions {
       switch (CUP$parser$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // $START ::= s EOF 
+          case 0: // $START ::= main EOF 
             {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
@@ -151,84 +154,74 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // s ::= objeto 
+          case 1: // main ::= LLAVE_IZQ sentencias LLAVE_DER 
             {
               Object RESULT =null;
 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("s",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("main",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // objeto ::= LLAVE_IZQ dato LLAVE_DER 
+          case 2: // sentencias ::= sentencias sentencia 
             {
-              Object RESULT =null;
+              String RESULT =null;
 
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("objeto",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("sentencias",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // dato ::= STRING DOSPUNTOS STRING COMA dato 
+          case 3: // sentencias ::= sentencia 
             {
-              Object RESULT =null;
-		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
-		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
-		int datoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
-		int datoright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		String dato = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		 System.out.println(id+ ": " +dato);
-                                                        tabJson.add(new tablaJson(id.substring(1,id.length()-1),"string",dato.substring(1,dato.length()-1)));
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("dato",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              String RESULT =null;
+
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("sentencias",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // dato ::= STRING DOSPUNTOS STRING 
+          case 4: // sentencia ::= conjunto 
             {
-              Object RESULT =null;
-		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
-		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		int datoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
-		int datoright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		String dato = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 System.out.println(id+ ": " +dato);
-                                                tabJson.add(new tablaJson(id.substring(1,id.length()-1),"string",dato.substring(1,dato.length()-1)));
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("dato",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              String RESULT =null;
+
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("sentencia",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // dato ::= STRING DOSPUNTOS DECIMAL COMA dato 
+          case 5: // sentencia ::= expRel 
             {
-              Object RESULT =null;
-		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
-		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
-		int datoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
-		int datoright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		String dato = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		 System.out.println(id+ ": "); System.out.println(dato);
-                                                        tabJson.add(new tablaJson(id.substring(1,id.length()-1),"double",dato));
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("dato",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              String RESULT =null;
+
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("sentencia",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // dato ::= STRING DOSPUNTOS DECIMAL 
+          case 6: // conjunto ::= CONJ DOSPUNTOS ID FLECHA expresion PUNTOCOMA 
             {
-              Object RESULT =null;
-		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
-		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
-		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
-		int datoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
-		int datoright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
-		String dato = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 System.out.println(id+ ": "); System.out.println(dato);
-                                                tabJson.add(new tablaJson(id.substring(1,id.length()-1),"double",dato));
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("dato",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+              String RESULT =null;
+
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("conjunto",3, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // expRel ::= ID FLECHA expresion PUNTOCOMA 
+            {
+              String RESULT =null;
+
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("expRel",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 8: // expresion ::= DECIMAL 
+            {
+              String RESULT =null;
+
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("expresion",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 

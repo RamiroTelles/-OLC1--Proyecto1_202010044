@@ -6,50 +6,94 @@ import structuras.tablaJson;
 parser code
 {:
 
-        public ArrayList<tablaJson> tabJson = new ArrayList();
-        
-        public ArrayList<tablaJson> getTabla(){
-                return tabJson;
-        }
 
 
 :}
 
 //Terminales
 
-terminal String LLAVE_IZQ, LLAVE_DER, COMA, DOSPUNTOS, COR_DER, COR_IZQ,  DECIMAL,STRING;
+terminal String PAR_IZQ, PAR_DER,MAS,POR,FLECHA,LLAVE_IZQ,LLAVE_DER;
+terminal String DOSPUNTOS,INT,PUNTO,CONJ,RSALTOLINEA;
+terminal String RCOMILLAD,RCOMILLAS;
+terminal String ID,DECIMAL,STRING,CARACTER;
+terminal String BARRA_V;
+terminal String PUNTOCOMA;
+
 
 
 //no terminales
-non terminal s;
-non terminal objeto;
-non terminal dato;
+non terminal main;
+
+non terminal String sentencias;
+non terminal String sentencia;
+non terminal String conjunto;
+non terminal String expRel;
+non terminal String expresion;
+
+
 
 //precendencia
-precedence left STRING,DECIMAL;
-precedence left COMA;
+
+//precedence left else,elseif
+
+
 
 //producciones
 
-start with s;
+start with main;
 
-s::= objeto
+main::= LLAVE_IZQ sentencias LLAVE_DER;
+
+sentencias::= sentencias sentencia 
+        | sentencia
 ;
 
-objeto::= LLAVE_IZQ dato LLAVE_DER;
-
-dato ::= STRING:id DOSPUNTOS STRING:dato  COMA dato {: System.out.println(id+ ": " +dato);
-                                                        tabJson.add(new tablaJson(id.substring(1,id.length()-1),"string",dato.substring(1,dato.length()-1)));:}
-        |STRING:id DOSPUNTOS STRING:dato    {: System.out.println(id+ ": " +dato);
-                                                tabJson.add(new tablaJson(id.substring(1,id.length()-1),"string",dato.substring(1,dato.length()-1)));:}
-        |STRING:id DOSPUNTOS DECIMAL:dato COMA dato {: System.out.println(id+ ": "); System.out.println(dato);
-                                                        tabJson.add(new tablaJson(id.substring(1,id.length()-1),"double",dato));:}
-        |STRING:id DOSPUNTOS DECIMAL:dato   {: System.out.println(id+ ": "); System.out.println(dato);
-                                                tabJson.add(new tablaJson(id.substring(1,id.length()-1),"double",dato));:}
+sentencia::= conjunto
+        | expRel
 ;
 
+conjunto ::= CONJ DOSPUNTOS ID FLECHA expresion PUNTOCOMA;
+
+expRel::= ID FLECHA expresion PUNTOCOMA;
+
+expresion::= DECIMAL;
 
 
 
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

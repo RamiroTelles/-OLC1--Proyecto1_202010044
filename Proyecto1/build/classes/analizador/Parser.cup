@@ -29,9 +29,19 @@ non terminal String sentencias;
 non terminal String sentencia;
 non terminal String conjunto;
 non terminal String expRel;
-non terminal String expresion;
+
 non terminal String expCon;
 non terminal String expCon1;
+
+non terminal String op;
+non terminal String op1;
+non terminal String op2;
+non terminal String op3;
+non terminal String op4;
+non terminal String e;
+
+non terminal String valor;
+non terminal String valor1;
 
 
 //precendencia
@@ -56,22 +66,61 @@ sentencia::= conjunto
 
 conjunto ::= CONJ DOSPUNTOS ID FLECHA expCon PUNTOCOMA;
 
-expRel::= ID FLECHA expresion PUNTOCOMA;
+expRel::= ID FLECHA e PUNTOCOMA;
 
 
 
 expCon::= ID    
         |CARACTER
+        |STRING
         |expCon expCon1
 ;
 
 expCon1::= CULEBRA CARACTER
         |CULEBRA ID
+        |CULEBRA STRING
         |COMA CARACTER
         |COMA ID
+        |COMA STRING
+    
+        
 ;
 
-expresion
+
+
+e    ::= valor
+        |op
+;
+
+valor::= PAR_IZQ valor1 PAR_DER
+        | valor1
+;
+
+valor1 ::= ID
+        |CARACTER
+        |STRING
+      
+;
+
+op   ::= BARRA_V e e 
+        | op1
+; 
+
+op1  ::= PUNTO e e 
+        |op2
+;
+
+op2  ::= INT e 
+        |op3
+;
+
+op3  ::= MAS e
+        |op4
+;
+
+op4 ::= POR e 
+;
+
 
 
 

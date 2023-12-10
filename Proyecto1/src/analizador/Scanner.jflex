@@ -73,6 +73,16 @@ COM_MULTI ="<!"([^ !>]|{SALTOLINEA})* "!>"
 %%
 /* 3. Reglas Semanticas */
 
+"~" { System.out.println("Reconocio "+yytext()+" ~"); 
+        listaTokens.add(new elToken(yytext(),"CULEBRA",yyline,yycolumn));
+        
+        return new Symbol(sym.CULEBRA,yyline,yychar, yytext());} 
+
+"," { System.out.println("Reconocio "+yytext()+" ~"); 
+        listaTokens.add(new elToken(yytext(),"COMA",yyline,yycolumn));
+        
+        return new Symbol(sym.COMA,yyline,yychar, yytext());} 
+
 "|" { System.out.println("Reconocio "+yytext()+" |"); 
         listaTokens.add(new elToken(yytext(),"BARRA_V",yyline,yycolumn));
         
@@ -177,10 +187,10 @@ COM_MULTI ="<!"([^ !>]|{SALTOLINEA})* "!>"
    
     return new Symbol(sym.ID,yyline,yychar, yytext());} 
 
-{DECIMAL} {System.out.println("Reconocio Decimal: "+yytext()); 
-    listaTokens.add(new elToken(yytext(),"DECIMAL",yyline,yycolumn));
+//{DECIMAL} {System.out.println("Reconocio Decimal: "+yytext()); 
+ //   listaTokens.add(new elToken(yytext(),"DECIMAL",yyline,yycolumn));
  
-    return new Symbol(sym.DECIMAL,yyline,yychar, yytext());} 
+ //   return new Symbol(sym.DECIMAL,yyline,yychar, yytext());} 
 {STRING} {System.out.println("Reconocio Cadena: "+yytext()); 
     listaTokens.add(new elToken(yytext(),"STRING",yyline,yycolumn));
   

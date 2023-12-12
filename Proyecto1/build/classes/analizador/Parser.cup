@@ -3,10 +3,16 @@ import java_cup.runtime.*;
 import java.util.ArrayList;
 import structuras.tablaJson;
 
+import structuras.arbol;
+
 parser code
 {:
 
+        ArrayList<arbol> arbolesER = new ArrayList();
 
+        public ArrayList getArboles(){
+                return arbolesER;
+        }
 
 :}
 
@@ -33,12 +39,12 @@ non terminal String expRel;
 non terminal String expCon;
 non terminal String expCon1;
 
-non terminal String op;
-non terminal String op1;
-non terminal String op2;
-non terminal String op3;
-non terminal String op4;
-non terminal String e;
+non terminal arbol op;
+non terminal arbol op1;
+non terminal arbol op2;
+non terminal arbol op3;
+non terminal arbol op4;
+non terminal arbol e;
 
 non terminal String valor;
 non terminal String valor1;
@@ -66,7 +72,8 @@ sentencia::= conjunto
 
 conjunto ::= CONJ DOSPUNTOS ID FLECHA expCon PUNTOCOMA;
 
-expRel::= ID FLECHA e PUNTOCOMA;
+expRel::= ID FLECHA e:a1 PUNTOCOMA {: arbolesER.add(a1); :}
+; 
 
 
 
@@ -88,37 +95,52 @@ expCon1::= CULEBRA CARACTER
 
 
 
-e    ::= valor
-        |op
+e    ::= valor:v1 {: RESULT=new arbol(v1); :}
+        |op:a1 {: RESULT=a1; :}
 ;
 
-valor::= PAR_IZQ valor1 PAR_DER
-        | valor1
+valor::= PAR_IZQ valor1:v1 PAR_DER {: RESULT=v1; :}
+        | valor1:v1 {: RESULT=v1; :}
 ;
 
-valor1 ::= ID
-        |CARACTER
-        |STRING
+valor1 ::= ID:id {: RESULT=id; :}
+        |CARACTER:caracter {: RESULT=caracter; :}
+        |STRING:cadena {: RESULT = cadena; :}
       
 ;
 
-op   ::= BARRA_V e e 
-        | op1
+op   ::= BARRA_V:op e:v1 e:v2 {: arbol operacion = new arbol(op);
+                                operacion.añadirHijo(v1);
+                                operacion.añadirHijo(v2);
+                                RESULT = operacion; :} 
+        | op1:a1 {: RESULT= a1; :}
 ; 
 
-op1  ::= PUNTO e e 
-        |op2
+op1  ::= PUNTO:op e:v1 e:v2 {: arbol operacion = new arbol(op);
+                                operacion.añadirHijo(v1);
+                                operacion.añadirHijo(v2);
+                                RESULT = operacion; :}
+        |op2:a1 {: RESULT= a1; :}
 ;
 
-op2  ::= INT e 
-        |op3
+op2  ::= INT:op e:v1 {: arbol operacion = new arbol(op);
+                                operacion.añadirHijo(v1);
+                                
+                                RESULT = operacion; :}
+        |op3:a1 {: RESULT= a1; :}
 ;
 
-op3  ::= MAS e
-        |op4
+op3  ::= MAS:op e:v1 {: arbol operacion = new arbol(op);
+                                operacion.añadirHijo(v1);
+                                
+                                RESULT = operacion; :}
+        |op4:a1 {: RESULT= a1; :}
 ;
 
-op4 ::= POR e 
+op4 ::= POR:op e:v1 {: arbol operacion = new arbol(op);
+                                operacion.añadirHijo(v1);
+                                
+                                RESULT = operacion; :}
 ;
 
 

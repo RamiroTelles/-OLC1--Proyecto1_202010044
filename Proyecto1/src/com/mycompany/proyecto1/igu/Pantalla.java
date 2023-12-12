@@ -27,6 +27,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import com.mycompany.proyecto1.igu.grafica;
 import java.lang.reflect.Array;
 import org.jfree.data.general.DefaultPieDataset;
+import structuras.arbol;
 
 
 
@@ -89,6 +90,12 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
             parser parser1 = new parser(scan1);
             parser1.parse();
             System.out.println("Analisis realizado correctamente");
+            ArrayList<arbol> arbolesER = parser1.getArboles();
+            System.out.println("------------------------------------");
+            for(arbol hijo: arbolesER){
+                hijo.imprimirInOrder(hijo);
+                System.out.println("------------------------------------");
+            }
             
             //listaTokens.addAll(scan1.getTokens());
             //listaErrores.addAll(scan1.getErrores());

@@ -14,6 +14,12 @@ parser code
                 return arbolesER;
         }
 
+        ArrayList<tablaJson> tablaS = new ArrayList();
+
+        public ArrayList getTablaS(){
+                return tablaS;
+        }
+
 :}
 
 //Terminales
@@ -70,25 +76,27 @@ sentencia::= conjunto
         | expRel
 ;
 
-conjunto ::= CONJ DOSPUNTOS ID FLECHA expCon PUNTOCOMA;
+conjunto ::= CONJ DOSPUNTOS ID:id FLECHA expCon:ex PUNTOCOMA {: tablaS.add(new tablaJson(id,ex)); :}
+
+; 
 
 expRel::= ID FLECHA e:a1 PUNTOCOMA {: arbolesER.add(a1); :}
 ; 
 
 
 
-expCon::= ID    
-        |CARACTER
-        |STRING
-        |expCon expCon1
+expCon::= ID:id {:RESULT=id; :}    
+        |CARACTER:caracter {:RESULT=caracter; :}
+        |STRING:string {:RESULT=string; :}
+        |expCon:ex1 expCon1:ex2 {: RESULT= ex1 + ex2; :}
 ;
 
-expCon1::= CULEBRA CARACTER
-        |CULEBRA ID
-        |CULEBRA STRING
-        |COMA CARACTER
-        |COMA ID
-        |COMA STRING
+expCon1::= CULEBRA:c CARACTER:caracter {: RESULT=c+caracter; :}
+        |CULEBRA:c ID:id {: RESULT=c+id; :}
+        |CULEBRA:c STRING:string {: RESULT=c+string; :}
+        |COMA:coma CARACTER:caracter {: RESULT=coma+caracter; :}
+        |COMA:coma ID:id {: RESULT=coma+id; :}
+        |COMA:coma STRING:string {: RESULT=coma+string; :}
     
         
 ;
@@ -123,15 +131,19 @@ op1  ::= PUNTO:op e:v1 e:v2 {: arbol operacion = new arbol(op);
         |op2:a1 {: RESULT= a1; :}
 ;
 
-op2  ::= INT:op e:v1 {: arbol operacion = new arbol(op);
+op2  ::= INT:op e:v1 {: arbol operacion = new arbol("|");
                                 operacion.añadirHijo(v1);
+                                operacion.añadirHijo(new arbol("epsilon"));
                                 
                                 RESULT = operacion; :}
         |op3:a1 {: RESULT= a1; :}
 ;
 
-op3  ::= MAS:op e:v1 {: arbol operacion = new arbol(op);
+op3  ::= MAS:op e:v1 {: arbol operacion = new arbol(".");
                                 operacion.añadirHijo(v1);
+                                arbol kleene = new arbol("*");
+                                kleene.añadirHijo(v1);
+                                operacion.añadirHijo(kleene);
                                 
                                 RESULT = operacion; :}
         |op4:a1 {: RESULT= a1; :}

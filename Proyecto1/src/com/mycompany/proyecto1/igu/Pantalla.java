@@ -28,7 +28,11 @@ import com.mycompany.proyecto1.igu.grafica;
 import java.lang.reflect.Array;
 import org.jfree.data.general.DefaultPieDataset;
 import structuras.arbol;
-
+import structuras.automata;
+import structuras.tablaJson;
+import structuras.elToken;
+import structuras.fallos;
+import structuras.tran;
 
 
 /**
@@ -82,7 +86,8 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
     }
 
     private void analizarJSON(String txt){
-      
+        ArrayList<elToken> listaTokens = new ArrayList();
+        ArrayList<fallos> listaErrores = new ArrayList();
         
         try{
             scanner scan1 = new scanner(new java.io.StringReader(txt));
@@ -92,21 +97,36 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
             System.out.println("Analisis realizado correctamente");
             ArrayList<arbol> arbolesER = parser1.getArboles();
             System.out.println("------------------------------------");
+            int i=0;
             for(arbol hijo: arbolesER){
                 hijo.imprimirInOrder(hijo);
                 System.out.println("------------------------------------");
+                automata a1 = hijo.generarAutomata(hijo, 0);
+                String nombre = "grafo" + String.valueOf(i);
+                generarGrafo(a1,nombre);
+                i++;
             }
             
-            //listaTokens.addAll(scan1.getTokens());
-            //listaErrores.addAll(scan1.getErrores());
+            ArrayList<tablaJson> tablaS = parser1.getTablaS();
+            System.out.println("------------------------------------");
+            for(tablaJson var: tablaS){
+                System.out.println("id: "+ var.getId()+ " valor: "+ var.getValor());
+                System.out.println("------------------------------------");
+            }
+            
+            
+            
+            listaTokens.addAll(scan1.getTokens());
+            listaErrores.addAll(scan1.getErrores());
             //tabJson.addAll(parser1.getTabla());
             //imprimirTokens(listaTokens);
             //imprimirErrores(listaErrores);
             
-            //generarReporteErrores(listaErrores,"erroresJson");
-            //generarReporteTokens(listaTokens,"tokensJson");
+            generarReporteErrores(listaErrores,"erroresJson");
+            generarReporteTokens(listaTokens,"tokensJson");
             //agregarNombreArchivo();
             //imprimirTablaJson();
+            
             
 
         }catch( Exception e){
@@ -116,10 +136,174 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
 
     }
     
-    
-    
+    public void generarReporteErrores(ArrayList<fallos> errores,String nombre) throws IOException {
+        FileWriter fichero=null;
+        PrintWriter pw;
+        try {
+            
+            String path = nombre + ".html";
+            fichero = new FileWriter(path);
+            pw = new PrintWriter(fichero);
+            
+            //Comenzamos a escribir el html
+            pw.println("<html>");
+            pw.println("<head><title>REPORTE DE ERRORES</title></head>");
+            pw.println("<body>");
+            pw.println("<div align=\"center\">");
+            pw.println("<h1>Reporte de Errores</h1>");
+            pw.println("<br></br>");
+            pw.println("<table border=1>");
+            pw.println("<tr>");
+            pw.println("<td>Lexema</td>");
+            pw.println("<td>DESCRIPCION</td>");
+            pw.println("<td>FILA</td>");
+            pw.println("<td>COLUMNA</td>");
+            pw.println("</tr>");
 
+            for (fallos err : errores) {
+                pw.println("<tr>");
+                pw.println("<td>" + err.getLexema() + "</td>");
+                pw.println("<td>" + err.getDesc() + "</td>");
+                pw.println("<td>" + err.getFila() + "</td>");
+                pw.println("<td>" + err.getCol() + "</td>");
+                pw.println("</tr>");
+            }
+
+            pw.println("</table>");
+            pw.println("</div");
+            pw.println("</body>");
+            pw.println("</html>");
+            Desktop.getDesktop().open(new File(path));
+            
+            
+        } catch (Exception e) {
+        } finally {
+            if (fichero != null) {
+                fichero.close();
+            }
+        }
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void generarGrafo(automata auto,String nombre) throws IOException{
+        
+        String grafica= "digraph L{\n ";
+        String enlaces="";
+        String nodoAceptacion=String.valueOf(auto.getLastEstadoFinal())+ "[ shape=doublecircle];\n";
+        
+        ArrayList<tran> t1 = auto.getTransiciones();
+        
+        for(tran var: t1){
+            
+            if( var.getCarTransicion().substring(0, 1).equals("\"") ){
+                enlaces+= var.getEstadoActual() + " -> " + var.getEstadoDestino() + " [label=" + var.getCarTransicion().substring(1,var.getCarTransicion().length()-1) +" ];\n";
+            }else{
+                enlaces+= var.getEstadoActual() + " -> " + var.getEstadoDestino() + " [label=" + var.getCarTransicion() +" ];\n";
+            }
+            
+        }
+        
+        grafica = grafica + nodoAceptacion +enlaces +"}";
+        
+        //generar HTML
+        
+        FileWriter fichero=null;
+        PrintWriter pw;
+        try {
+            
+            String path = nombre + ".html";
+            fichero = new FileWriter(path);
+            pw = new PrintWriter(fichero);
+            
+            //Comenzamos a escribir el html
+            pw.println("<html>");
+            pw.println("<head><title>AFN por Thompson</title></head>");
+            pw.println("<body>");
+            pw.println("<div align=\"center\">");
+            pw.println("<h1>AFN por Thompson</h1>");
+            pw.println("<br></br>");
+            pw.print("<img src=\"");
+            pw.print("https://quickchart.io/graphviz?graph=");
+            pw.print(grafica);
+            pw.println("\" >");
+            pw.println("</div");
+            pw.println("</body>");
+            pw.println("</html>");
+            Desktop.getDesktop().open(new File(path));
+            
+            
+        } catch (Exception e) {
+        } finally {
+            if (fichero != null) {
+                fichero.close();
+            }
+        }
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        
+    }
  
+    public void generarReporteTokens(ArrayList<elToken> listaTokens,String nombre) throws IOException {
+        FileWriter fichero=null;
+        PrintWriter pw;
+        try {
+            
+            String path = nombre + ".html";
+            fichero = new FileWriter(path);
+            pw = new PrintWriter(fichero);
+            
+            //Comenzamos a escribir el html
+            pw.println("<html>");
+            pw.println("<head><title>REPORTE DE TOKENS</title></head>");
+            pw.println("<body>");
+            pw.println("<div align=\"center\">");
+            pw.println("<h1>REPORTE DE TOKENS</h1>");
+            pw.println("<br></br>");
+            pw.println("<table border=1>");
+            pw.println("<tr>");
+            pw.println("<td>Lexema</td>");
+            pw.println("<td>Token</td>");
+            pw.println("<td>Fila</td>");
+            pw.println("<td>Columna</td>");
+            pw.println("</tr>");
+
+            for (elToken tok : listaTokens) {
+                pw.println("<tr>");
+                pw.println("<td>" + tok.getLexema() + "</td>");
+                pw.println("<td>" + tok.getToken() + "</td>");
+                pw.println("<td>" + tok.getLinea() + "</td>");
+                pw.println("<td>" + tok.getCol() + "</td>");
+                pw.println("</tr>");
+            }
+
+            pw.println("</table>");
+            pw.println("</div");
+            pw.println("</body>");
+            pw.println("</html>");
+            Desktop.getDesktop().open(new File(path));
+            
+            
+        } catch (Exception e) {
+        } finally {
+            if (fichero != null) {
+                fichero.close();
+            }
+        }
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     
     

@@ -12,14 +12,14 @@ public class tablaJson {
     
     
     private String id;
-    private String tipo;
+    
     private Object valor;
     
     
-    public tablaJson( String id, String tipo, Object valor){
+    public tablaJson( String id,  Object valor){
         
         this.id=id;
-        this.tipo = tipo;
+        
         this.valor=valor;
         
     }
@@ -30,9 +30,7 @@ public class tablaJson {
         return id;
     }
 
-    public String getTipo() {
-        return tipo;
-    }
+  
 
     public Object getValor() {
         return valor;
@@ -44,9 +42,7 @@ public class tablaJson {
         this.id = id;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+    
 
     public void setValor(Object valor) {
         this.valor = valor;

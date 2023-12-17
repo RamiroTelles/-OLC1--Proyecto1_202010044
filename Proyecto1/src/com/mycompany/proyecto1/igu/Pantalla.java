@@ -104,7 +104,12 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
                 automata a1 = hijo.generarAutomata(hijo, 0);
                 String nombre = "grafo" + String.valueOf(i);
                 generarGrafo(a1,nombre);
+                automata automataS = a1.metodoSubconjuntos();
                 i++;
+                nombre = "grafo"+String.valueOf(i);
+                generarGrafoSubCon(automataS,nombre);
+                i++;
+                
             }
             
             ArrayList<tablaJson> tablaS = parser1.getTablaS();
@@ -188,6 +193,76 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
             e.printStackTrace();
         }
     }
+    
+    public void generarGrafoSubCon(automata auto,String nombre) throws IOException{
+        
+        String grafica= "digraph L{\n ";
+        String enlaces="";
+        String nodoAceptacion="";
+        for(Integer estado: auto.getEstadosFinales()){
+            nodoAceptacion+=String.valueOf(estado)+ "[ shape=doublecircle];\n";
+        }
+        
+        
+        ArrayList<tran> t1 = auto.getTransiciones();
+        
+        for(tran var: t1){
+            
+            if( var.getCarTransicion().substring(0, 1).equals("\"") ){
+                enlaces+= var.getEstadoActual() + " -> " + var.getEstadoDestino() + " [label=" + var.getCarTransicion().substring(1,var.getCarTransicion().length()-1) +" ];\n";
+            }else{
+                enlaces+= var.getEstadoActual() + " -> " + var.getEstadoDestino() + " [label=" + var.getCarTransicion() +" ];\n";
+            }
+            
+        }
+        
+        grafica = grafica + nodoAceptacion +enlaces +"}";
+        
+        //generar HTML
+        
+        FileWriter fichero=null;
+        PrintWriter pw;
+        try {
+            
+            String path = nombre + ".html";
+            fichero = new FileWriter(path);
+            pw = new PrintWriter(fichero);
+            
+            //Comenzamos a escribir el html
+            pw.println("<html>");
+            pw.println("<head><title>AFD con Subconjuntos</title></head>");
+            pw.println("<body>");
+            pw.println("<div align=\"center\">");
+            pw.println("<h1>AFD con Subconjuntos</h1>");
+            pw.println("<br></br>");
+            pw.print("<img src=\"");
+            pw.print("https://quickchart.io/graphviz?graph=");
+            pw.print(grafica);
+            pw.println("\" >");
+            pw.println("</div");
+            pw.println("</body>");
+            pw.println("</html>");
+            Desktop.getDesktop().open(new File(path));
+            
+            
+        } catch (Exception e) {
+        } finally {
+            if (fichero != null) {
+                fichero.close();
+            }
+        }
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+        
+    }
+    
+    
+    
     
     public void generarGrafo(automata auto,String nombre) throws IOException{
         

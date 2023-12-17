@@ -130,7 +130,7 @@ public class automata {
                 
                 if(estado == Integer.parseInt(var.getEstadoActual()) && var.getCarTransicion().equals(caracter)){
                     
-                    pila.add(Integer.valueOf(var.getEstadoDestino()));
+                    //pila.add(Integer.valueOf(var.getEstadoDestino()));
                     subConjunto.add(Integer.valueOf(var.getEstadoDestino()));
                     
                 

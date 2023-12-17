@@ -207,6 +207,10 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
         ArrayList<tran> t1 = auto.getTransiciones();
         
         for(tran var: t1){
+            if(var.getCarTransicion().equals("\".\"")){
+                enlaces+= var.getEstadoActual() + " -> " + var.getEstadoDestino() + " [label=punto ];\n";
+                continue;
+            }
             
             if( var.getCarTransicion().substring(0, 1).equals("\"") ){
                 enlaces+= var.getEstadoActual() + " -> " + var.getEstadoDestino() + " [label=" + var.getCarTransicion().substring(1,var.getCarTransicion().length()-1) +" ];\n";
@@ -273,6 +277,11 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
         ArrayList<tran> t1 = auto.getTransiciones();
         
         for(tran var: t1){
+            
+            if(var.getCarTransicion().equals("\".\"")){
+                enlaces+= var.getEstadoActual() + " -> " + var.getEstadoDestino() + " [label=punto ];\n";
+                continue;
+            }
             
             if( var.getCarTransicion().substring(0, 1).equals("\"") ){
                 enlaces+= var.getEstadoActual() + " -> " + var.getEstadoDestino() + " [label=" + var.getCarTransicion().substring(1,var.getCarTransicion().length()-1) +" ];\n";

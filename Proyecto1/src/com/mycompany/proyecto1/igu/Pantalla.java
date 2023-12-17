@@ -26,6 +26,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import com.mycompany.proyecto1.igu.grafica;
 import java.lang.reflect.Array;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.data.general.DefaultPieDataset;
 import structuras.arbol;
 import structuras.automata;
@@ -66,8 +68,8 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
         fc.showOpenDialog(null);
         
         File archivo = fc.getSelectedFile();
-        String nombre = fc.getName(archivo);
-        nombreArchivo = nombre;
+        //String nombre = fc.getName(archivo);
+        nombreArchivo = archivo.getPath();
         try{
             FileReader fr = new FileReader(archivo);
             BufferedReader br= new BufferedReader(fr);
@@ -83,6 +85,78 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
         }catch(IOException e){
 
         }
+    }
+    
+    private void guardarArchivo(String txt) throws IOException{
+       
+        
+        File archivo = new File(this.nombreArchivo);
+        //String nombre = fc.getName(archivo);
+        
+        
+        FileWriter fichero=null;
+        PrintWriter pw;
+        try {
+            
+            
+            fichero = new FileWriter(archivo);
+            pw = new PrintWriter(fichero);
+            
+            //Comenzamos a escribir el html
+            pw.println(txt);
+           
+            
+            
+        } catch (Exception e) {
+        } finally {
+            if (fichero != null) {
+                fichero.close();
+            }
+        }
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
+    }
+    
+    
+    private void guardarComo(String txt) throws IOException{
+        JFileChooser fc= new JFileChooser();
+        fc.showSaveDialog(null);
+        
+        File archivo = fc.getSelectedFile();
+        //String nombre = fc.getName(archivo);
+        this.nombreArchivo = archivo.getPath();
+        
+        FileWriter fichero=null;
+        PrintWriter pw;
+        try {
+            
+            
+            fichero = new FileWriter(archivo);
+            pw = new PrintWriter(fichero);
+            
+            //Comenzamos a escribir el html
+            pw.println(txt);
+           
+            
+            
+        } catch (Exception e) {
+        } finally {
+            if (fichero != null) {
+                fichero.close();
+            }
+        }
+        try {
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        
     }
 
     private void analizarJSON(String txt){
@@ -401,9 +475,31 @@ public class Pantalla extends javax.swing.JFrame implements ActionListener{
         }
         if (e.getSource()==jMenuItem2) {
             System.out.println("Guardar");
+            String txt = jTextArea1.getText();
+            if(!this.nombreArchivo.equals("")){
+                try {
+                    guardarArchivo(txt);
+                } catch (IOException ex) {
+                    Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }else{
+                try {
+                    guardarComo(txt);
+                } catch (IOException ex) {
+                    Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
         }
         if (e.getSource()==jMenuItem3) {
             System.out.println("Guardar Como");
+            String txt = jTextArea1.getText();
+            try {
+                guardarComo(txt);
+            } catch (IOException ex) {
+                Logger.getLogger(Pantalla.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
         if (e.getSource()==jMenuItem4) {
             //System.out.println("Ejecutar");
